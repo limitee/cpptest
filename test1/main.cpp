@@ -150,9 +150,12 @@ int main()
 	}
 
 	MyIfTable *table = new MyIfTable();
-	std::cout << table->cur_out_octets << std::endl;
-	table->refresh_octets();
-	std::cout << table->cur_out_octets << std::endl;
+	while (true) {
+		Sleep(1000);
+		std::cout << table->cur_out_octets << std::endl;
+		table->refresh_octets();
+		std::cout << table->cur_out_octets << std::endl;
+	}
 	delete table;
 
 	char str[8];
