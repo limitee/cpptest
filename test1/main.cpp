@@ -149,12 +149,12 @@ int main()
 		pIfTable = NULL;
 	}
 
+	long time_gap = 1000;
 	MyIfTable *table = new MyIfTable();
 	while (true) {
-		Sleep(1000);
-		std::cout << table->cur_out_octets << std::endl;
+		Sleep(time_gap);
 		table->refresh_octets();
-		std::cout << table->cur_out_octets << std::endl;
+		std::cout << table->speed(time_gap)/1024.00 << "KB/s" << std::endl;
 	}
 	delete table;
 

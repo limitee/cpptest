@@ -51,12 +51,13 @@ bool MyIfTable::refresh_octets() {
 	// Make a second call to GetIfTable to get the actual
 	// data we want.
 	if ((dwRetVal = GetIfTable(pIfTable, &dwSize, FALSE)) == NO_ERROR) {
-		std::cout << "Num Entries: " << pIfTable->dwNumEntries << std::endl;
+		//std::cout << "Num Entries: " << pIfTable->dwNumEntries << std::endl;
 		if (pIfTable->dwNumEntries < 3) {
 			FREE(pIfTable);
 			return FALSE;
 		}
 		pIfRow = (MIB_IFROW *)& pIfTable->table[2];
+		this->last_out_octets = this->cur_out_octets;
 		this->cur_out_octets = pIfRow->dwOutOctets;
 	}
 
@@ -66,4 +67,18 @@ bool MyIfTable::refresh_octets() {
 	}
 
 	return TRUE;
+}
+
+/**
+ * »ñµÃÍøËÙ£¬B/S
+ */
+long MyIfTable::speed(long milli_seconds) {
+	if (this->last_out_octets == 0) {
+		return 0;
+	}
+	//std::cout << this->cur_out_octets << std::endl;
+	//std::cout << this->last_out_octets << std::endl;
+	long gap = this->cur_out_octets - this->last_out_octets;
+	long speed = gap * 1000 / milli_seconds;
+	return speed;
 }
